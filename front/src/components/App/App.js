@@ -1,12 +1,21 @@
 import React from 'react';
 
-import {Socket, Storage, StorageAdvStat, StorageWinStat, List, PickList, CounterPicker, StorageCounterPickerDefault} from '../';
+import {
+    Socket,
+    Storage,
+    StorageAdvStat,
+    StorageWinStat,
+    List,
+    PickList,
+    CounterPicker,
+    StorageCounterPickerDefault
+} from '../';
 import Dummy from '../Dummy';
 
 import './style.scss';
 import CounterPickerWrapper from "../CounterPicker";
 
-const pcb = {
+const pcbTemplate = {
     Storage: {
         id: 'storage0',
         relations: {
@@ -67,14 +76,14 @@ const pcb = {
     StorageCounterPickerDefault: {
         id: 'storage3',
         relations: {
-            Core:  {
-                id:  'core4'
+            Core: {
+                id: 'core4'
             },
             Storage0: {
-                id:  'core1'
+                id: 'core1'
             },
-            Storage1:{
-                id:  'core2'
+            Storage1: {
+                id: 'core2'
             }
         }
     },
@@ -82,13 +91,13 @@ const pcb = {
         id: 'cpiker0',
         relations: {
             Core: {
-                id:  'core5'
+                id: 'core5'
             },
             Storage0: {
-                id:  'core1'
+                id: 'core1'
             },
-            Storage1:{
-                id:  'core4'
+            Storage1: {
+                id: 'core4'
             },
             Radiant: {
                 id: 'list1'
@@ -96,7 +105,11 @@ const pcb = {
             Dire: {
                 id: 'list2'
             }
-        }
+        },
+        children: [{
+            alias: 'Табы',
+            name: 'Tabs'
+        }]
     },
     RadiantList: {
         id: 'list3',
@@ -119,12 +132,40 @@ const pcb = {
     }
 };
 
+function pcbGenerate(template) {
+    const generated = {...template};
+    generated.make = (name) => {
+        let result = undefined;
+        if (template.hasOwnProperty(name)) {
+            result = {
+                ...template[name],
+                make: generated.make,
+                children: (()=>{
+                    const result = {};
+                    template[name].children ? template[name].children.map(child => {
+                         template[Object.keys(template).find(key => {
+                            if(key === child.name){
+                                result[child.alias] = {...template[key], name: child.name};
+                                return true;
+                            }
+                            return false
+                        })];
+                    }) : {};
+                    return result;
+                })()
+            }
+        }
+        return result;
+    };
+    return generated;
+}
+
 export default class App extends React.Component {
     constructor() {
         super();
 
-        this.state = {}
-
+        this.state = {};
+        this.pcb = pcbGenerate(pcbTemplate);
     }
 
     componentDidMount() {
@@ -134,23 +175,23 @@ export default class App extends React.Component {
 
         return (
             <React.Fragment>
-                <Storage pcb={pcb.Storage}/>
-                <StorageAdvStat pcb={pcb.StorageAdvStat}/>
+                <Storage pcb={this.pcb.make('Storage')}/>
+                <StorageAdvStat pcb={this.pcb.make('StorageAdvStat')}/>
                 {/*<StorageWinStat pcb={pcb.StorageWinStat}/>*/}
-                <StorageCounterPickerDefault pcb={pcb.StorageCounterPickerDefault}/>
+                <StorageCounterPickerDefault pcb={this.pcb.make('StorageCounterPickerDefault')}/>
 
                 {/**Layout*/}
                 <div className={`the-app dota-picker`}>
                     <div className={`dota-picker__item heroes`}>
-                        <List pcb={pcb.List} rootClass={`heroes-list`}/>
+                        <List pcb={this.pcb.make('List')} rootClass={`heroes-list`}/>
                     </div>
                     <div className={`dota-picker__item match`}>
                         <div className={`picks`}>
-                            <PickList pcb={pcb.Radiant} rootClass={'radiant-team'}/>
-                            <PickList pcb={pcb.Dire} rootClass={'dire-team'}/>
+                            <PickList pcb={this.pcb.make('Radiant')} rootClass={'radiant-team'}/>
+                            <PickList pcb={this.pcb.make('Dire')} rootClass={'dire-team'}/>
                         </div>
                         <div className={`picker`}>
-                            <CounterPicker  pcb={pcb.CounterPicker}/>
+                            <CounterPicker pcb={this.pcb.make('CounterPicker')}/>
                         </div>
                     </div>
                 </div>

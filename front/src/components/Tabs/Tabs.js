@@ -10,12 +10,18 @@ import {filterData} from "../List/redux/actions";
 class Tabs extends React.Component {
 
     render(){
-        const {rootClass} = this.props;
+        const {rootClass, currentTab, handleChange} = this.props;
 
         return(
             <div className={`${rootClass}__tabs tabs`}>
-                <div className={`tabs__item`}>Possible Picks</div>
-                <div className={`tabs__item`}>Stats</div>
+                <div
+                    className={`tabs__item ${currentTab === 'Possible Picks' ? 'tabs__item--active' : ''}`}
+                    onClick={()=>handleChange('Possible Picks')}
+                >Possible Picks</div>
+                <div
+                    className={`tabs__item ${currentTab === 'Stats' ? 'tabs__item--active' : ''}`}
+                    onClick={()=>handleChange('Stats')}
+                >Stats</div>
             </div>
         )
     }
@@ -23,7 +29,7 @@ class Tabs extends React.Component {
 
 Tabs.propTypes = {
     rootClass: PropTypes.string,
-    currentTab: PropTypes.string,
+    pcb: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => {
@@ -36,7 +42,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchers = (dispatch, props) => {
     return bindActionCreators({
-        handleChange: (e) => handleChange(props.pcb.id, e.target)
+        handleChange: (data) => handleChange(props.pcb.id, data)
     }, dispatch);
 };
 

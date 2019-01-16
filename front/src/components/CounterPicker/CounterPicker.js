@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 import {} from "./redux/actions";
+import {Tabs} from '../'
 import * as R from 'ramda';
 
 const $scope = {
@@ -546,23 +547,25 @@ class CounterPicker extends React.Component {
         const oldOUpdate = {
             radiantTeam: this.props.radiantTeam,
             direTeam: this.props.direTeam,
+            dataFromHeroesAdvStorageIsReady: this.props.dataFromHeroesAdvStorageIsReady
         };
         const newOUpdate = {
             radiantTeam: nextProps.radiantTeam,
-            direTeam: nextProps.direTeam
+            direTeam: nextProps.direTeam,
+            dataFromHeroesAdvStorageIsReady: nextProps.dataFromHeroesAdvStorageIsReady
         };
 
         return !(JSON.stringify(oldOUpdate) === JSON.stringify(newOUpdate));
     }
 
     render() {
+
+        const {pcb} = this.props;
+
         return (
            <div className={`counter-picker`}>
                <div className={`counter-picker__content`}>
-                   <div className={`counter-picker__tabs tabs`}>
-                       <div className={`tabs__item`}>Possible Picks</div>
-                       <div className={`tabs__item`}>Stats</div>
-                   </div>
+                 <Tabs rootClass={`counter-picker`} pcb={pcb.make(pcb.children['Табы'].name)}/>
                </div>
            </div>
         )

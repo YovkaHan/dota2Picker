@@ -17,6 +17,7 @@ import StorageCounterPickerDefault from './Storages/StorageCounterPickerDefault/
 import List from './List';
 import PickList from './PickList';
 import CounterPicker from './CounterPicker';
+import Tabs from './Tabs';
 
 export {
     App,
@@ -37,5 +38,6 @@ export {
     ControllerPanel,
     CounterPicker,
     FooX2equalsY,
-    FunctionLibrary
+    FunctionLibrary,
+    Tabs
 }
