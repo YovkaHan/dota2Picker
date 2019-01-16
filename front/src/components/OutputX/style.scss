@@ -1,0 +1,75 @@
+.output-x {
+  position: relative;
+  display: inline-flex;
+  border: 1px solid #1b0c96;
+  overflow: hidden;
+
+  &__content {
+    position: relative;
+    display: inline-flex;
+    background: #fff9df;
+    width: 400px;
+    height: 40px;
+  }
+
+  .coords {
+    position: relative;
+    width: inherit;
+    height: inherit;
+
+    &__x {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      z-index: 2;
+
+      .part {
+        position: absolute;
+        display: inline-block;
+        height: inherit;
+        border-right: 1px solid green;
+
+        &--center {
+          border-color: black;
+        }
+      }
+    }
+
+    &__y {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: inherit;
+      height: inherit;
+      z-index: 2;
+
+      .part {
+        position: absolute;
+        display: inline-block;
+        width: inherit;
+        border-bottom: 1px solid green;
+
+        &--center {
+          border-color: black;
+        }
+      }
+    }
+
+    .dot {
+      position: absolute;
+      width: 3px;
+      height: inherit;
+      background: red;
+
+      top: 0;
+      left: 100px;
+      transform: translateX(-50%) translateY(0);
+      border-radius: 1px;
+      transition: 0.2s ease all;
+
+      z-index: 100;
+    }
+  }
+}

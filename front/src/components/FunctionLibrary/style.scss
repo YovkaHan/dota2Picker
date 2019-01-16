@@ -1,0 +1,150 @@
+.function-library {
+  height: 100%;
+  width: 100%;
+
+  &__content {
+    position: relative;
+    display: inline-flex;
+    height: inherit;
+    width: inherit;
+
+    justify-content: space-evenly;
+  }
+
+  &__view {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__list {
+
+  }
+
+  .functions-list {
+    padding: 10px;
+
+    background: #9ba9a6;
+
+    border: 1px solid black;
+
+
+    &__item {
+      background: white;
+      opacity: 0.6;
+      padding: 10px;
+
+      border: 1px solid #5a5a5a;
+      cursor: pointer;
+
+      margin: 10px 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &--active {
+        opacity: 1;
+        border-color: black;
+      }
+    }
+  }
+
+  .foo {
+
+    &__formula {
+      text-align: center;
+      color: #940000;
+      margin-bottom: 20px;
+    }
+
+    &__function {
+      display: flex;
+      justify-content: center;
+    }
+
+    &__selector {
+      display: flex;
+    }
+
+    &__btn {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    &-variable {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &__name {
+        width: 50px;
+        text-align: center;
+      }
+      &__value {
+        width: 50px;
+      }
+    }
+
+    &-sign {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &__name {
+        width: 50px;
+      }
+      &__value {
+        width: 50px;
+      }
+    }
+  }
+
+  .selector {
+    background: #e2e2e2;
+
+    &__item {
+      display: inline-flex;
+      align-items: center;
+      text-align: center;
+
+      margin: 0 10px;
+      padding: 4px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+
+      &--flag {
+        input {
+          margin: 10px;
+        }
+      }
+    }
+
+    &__input {
+      width: 100px;
+    }
+  }
+
+  .formula {
+    padding: 10px;
+    background: #e2e2e2;
+
+    &__find {
+      margin: 5px 0;
+    }
+    &__text {
+      margin: 5px 0;
+      color: black;
+    }
+  }
+
+
+}

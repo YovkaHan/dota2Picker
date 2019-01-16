@@ -1,0 +1,64 @@
+.panel {
+  position: relative;
+  padding: 20px;
+  background: #4c8a94;
+
+  &-content {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    height: 452px;
+  }
+
+  &-section {
+    position: relative;
+    height: inherit;
+    width: auto;
+    display: inline-flex;
+    justify-content: center;
+    flex-grow: 1;
+
+    margin: 0 20px;
+
+    &:first-child{
+      margin-left: 0;
+    }
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &--graphs {
+      width: 452px;
+      flex-grow: 0;
+    }
+  }
+
+  &__x {
+    position: absolute;
+    top: 0;
+    left: 50px;
+  }
+  &__y {
+    position: absolute;
+    top: 50px;
+    left: 0;
+  }
+  &__xy {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+  }
+  &__dots {
+    position: relative;
+    height: 100%;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}
