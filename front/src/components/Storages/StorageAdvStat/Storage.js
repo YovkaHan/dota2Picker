@@ -29,7 +29,6 @@ class Storage extends React.Component {
         }));
         // await functionProcess(this.props.sequence);
         // await makeOutput();
-        console.log('2222');
         await this.state.socket.onDisconnect()
     };
 

@@ -109,3 +109,32 @@ function GetCustomFunctionHandler(fn, variables, functions) {
  *
  * 2453 вывод статистики
  * */
+
+computedEnemyScore: -3.4
+computedEnemyScoreRaw: -3.322558327022312
+computedEnemyScoreStr: "-3.4"
+computedScore: -0.6082467340389983
+computedScoreNoPersonal: -0.6082467340389983
+computedScoreStr: "-0.7"
+counterBanScore: 3.9
+counterBanScoreRaw: 3.9104986894256846
+counterBanScoreStr: "+3.9"
+counterEnemyScore: -2.7
+counterEnemyScoreRaw: -2.6600751869073176
+counterEnemyScoreStr: "-2.7"
+counterHelpEnemyScoreRaw: -3.322558327022312
+counterHelpTeamScore: -0.7
+counterHelpTeamScoreRaw: -0.6082467340389983
+counterHelpTeamScoreStr: "-0.7"
+counterTeamScore: -1.9
+counterTeamScoreRaw: -1.8275666882497066
+counterTeamScoreStr: "-1.9"
+gamePartScore: 0
+gamePartScoreRaw: 0
+gamePartScoreStr: "+0"
+helpEnemyScore: -1.5
+helpEnemyScoreRaw: -1.4949916387726052
+helpEnemyScoreStr: "-1.5"
+helpTeamScore: 2
+helpTeamScoreRaw: 2.0518284528683193
+helpTeamScoreStr: "+2"

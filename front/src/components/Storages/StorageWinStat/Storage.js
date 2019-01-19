@@ -27,8 +27,9 @@ class Storage extends React.Component {
         await setData(new Promise((resolve, reject) => {
             this.state.socket.heroesWinStatGet(resolve, reject)
         }));
-        await functionProcess(this.props.sequence);
-        await makeOutput();
+        // await functionProcess(this.props.sequence);
+        // await makeOutput();
+        await this.state.socket.onDisconnect()
     };
 
     render(){

@@ -10,7 +10,7 @@ function compareNames(heroNames, heroAdv) {
     }
 }
 
-function makeHeroData(heroNames, heroAdv) {
+function makeHeroData(heroNames, heroAdv, heroWin) {
     return new Promise((resolve, reject) => {
         const result = {data: {}};
         const heroes = [];
@@ -26,6 +26,10 @@ function makeHeroData(heroNames, heroAdv) {
                             advantageUnscaled: null,
                             synergy: null,
                             synergyUnscaled: null,
+                            winrate: null,
+                            winrateUnscaled: null,
+                            winrateteam: null,
+                            winrateteamUnscaled: null,
                             name: heroNames[index].name, /**possible name trouble*/
                             propertyName: index,
                             atk: heroNames[index].atk,
@@ -40,9 +44,9 @@ function makeHeroData(heroNames, heroAdv) {
                 heroes[name].advantage = heroAdv.adv_rates[name];
                 heroes[name].advantageUnscaled = JSON.parse(JSON.stringify(heroAdv.adv_rates[name]));
                 if ('adv_rates_scale' in heroAdv) {
-                    for (var hvN = 0; hvN < heroes[name].advantage.length; hvN++) {
+                    for (let hvN = 0; hvN < heroes[name].advantage.length; hvN++) {
                         if (heroes[name].advantage[hvN] == null) continue;
-                        for (var sN = 0; sN <skillLevels.length; sN++) {
+                        for (let sN = 0; sN <skillLevels.length; sN++) {
                             heroes[name].advantage[hvN][sN] = Math.round(heroes[name].advantage[hvN][sN] / heroAdv.adv_rates_scale[sN] * 1000) / 100;
                             if (heroes[name].advantage[hvN][sN] > 10) heroes[name].advantage[hvN][sN] = 10;
                             if (heroes[name].advantage[hvN][sN] < -10) heroes[name].advantage[hvN][sN] = -10;
@@ -52,12 +56,36 @@ function makeHeroData(heroNames, heroAdv) {
                 heroes[name].synergy = heroAdv.adv_rates_friends[name];
                 heroes[name].synergyUnscaled = JSON.parse(JSON.stringify(heroAdv.adv_rates_friends[name]));
                 if ('adv_rates_friends_scale' in heroAdv) {
-                    for (var hvN = 0; hvN < heroes[name].synergy.length; hvN++) {
+                    for (let hvN = 0; hvN < heroes[name].synergy.length; hvN++) {
                         if (heroes[name].synergy[hvN] == null) continue;
-                        for (var sN = 0; sN < skillLevels.length; sN++) {
+                        for (let sN = 0; sN < skillLevels.length; sN++) {
                             heroes[name].synergy[hvN][sN] = Math.round(heroes[name].synergy[hvN][sN] / heroAdv.adv_rates_friends_scale[sN] * 1000) / 100;
                             if (heroes[name].synergy[hvN][sN] > 10) heroes[name].synergy[hvN][sN] = 10;
                             if (heroes[name].synergy[hvN][sN] < -10) heroes[name].synergy[hvN][sN] = -10;
+                        }
+                    }
+                }
+                heroes[name].winrate = heroWin.win_rates[name];
+                heroes[name].winrateUnscaled = JSON.parse(JSON.stringify(heroWin.win_rates[name]));
+                if ('win_rates_scale' in heroWin) {
+                    for (let hvN = 0; hvN < heroes[name].winrate.length; hvN++) {
+                        if (heroes[name].winrate[hvN] == null) continue;
+                        for (let sN = 0; sN < skillLevels.length; sN++) {
+                            heroes[name].winrate[hvN][sN] = Math.round(heroes[name].winrate[hvN][sN] / heroWin.win_rates_scale[sN] * 1000) / 100;
+                            if (heroes[name].winrate[hvN][sN] > 10) heroes[name].winrate[hvN][sN] = 10;
+                            if (heroes[name].winrate[hvN][sN] < -10) heroes[name].winrate[hvN][sN] = -10;
+                        }
+                    }
+                }
+                heroes[name].winrateteam = heroWin.win_rates_friends[name];
+                heroes[name].winrateteamUnscaled = JSON.parse(JSON.stringify(heroWin.win_rates_friends[name]));
+                if ('win_rates_friends_scale' in heroWin) {
+                    for (let hvN = 0; hvN < heroes[name].winrateteam.length; hvN++) {
+                        if (heroes[name].winrateteam[hvN] == null) continue;
+                        for (let sN = 0; sN < skillLevels.length; sN++) {
+                            heroes[name].winrateteam[hvN][sN] = Math.round(heroes[name].winrateteam[hvN][sN] / heroWin.win_rates_friends_scale[sN] * 1000) / 100;
+                            if (heroes[name].winrateteam[hvN][sN] > 10) heroes[name].winrateteam[hvN][sN] = 10;
+                            if (heroes[name].winrateteam[hvN][sN] < -10) heroes[name].winrateteam[hvN][sN] = -10;
                         }
                     }
                 }
@@ -94,13 +122,18 @@ class Storage extends React.Component {
 
     async initLoop() {
         const {setData, functionProcess, makeOutput, sequenceManage} = this.props;
-        await setData(makeHeroData(this.props.dataFromHeroesStorage, this.props.dataFromHeroesAdvStorage));
+        await setData(makeHeroData(this.props.dataFromHeroesStorage, this.props.dataFromHeroesAdvStorage, this.props.dataFromHeroesWinStorage));
         // await functionProcess(this.props.sequence);
         // await makeOutput();
     };
 
     componentDidUpdate() {
-        if (!this.state.initiated && this.props.dataFromHeroesStorageIsReady && this.props.dataFromHeroesAdvStorageIsReady) {
+        if (
+            !this.state.initiated
+            && this.props.dataFromHeroesStorageIsReady
+            && this.props.dataFromHeroesAdvStorageIsReady
+            && this.props.dataFromHeroesWinStorageIsReady
+        ) {
             this.setState({
                 initiated: true
             }, this.initLoop)
@@ -125,6 +158,8 @@ const mapStateToProps = (state, props) => {
         dataFromHeroesStorageIsReady: state.Components.Core[props.pcb.relations.Storage0.id].meta.flags.setting === 2,
         dataFromHeroesAdvStorage: state.Components.Core[props.pcb.relations.Storage1.id].buffer,
         dataFromHeroesAdvStorageIsReady: state.Components.Core[props.pcb.relations.Storage1.id].meta.flags.setting === 2,
+        dataFromHeroesWinStorage: state.Components.Core[props.pcb.relations.Storage2.id].buffer,
+        dataFromHeroesWinStorageIsReady: state.Components.Core[props.pcb.relations.Storage2.id].meta.flags.setting === 2,
     })
 };
 

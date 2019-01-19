@@ -84,6 +84,9 @@ const pcbTemplate = {
             },
             Storage1: {
                 id: 'core2'
+            },
+            Storage2: {
+                id: 'core3'
             }
         }
     },
@@ -106,10 +109,16 @@ const pcbTemplate = {
                 id: 'list2'
             }
         },
-        children: [{
-            alias: 'Табы',
-            name: 'Tabs'
-        }]
+        children: [
+            {
+                alias: 'Табы',
+                name: 'Tabs'
+            },
+            {
+                alias: 'RadiantSuggestedPicks',
+                name: 'RadiantList'
+            }
+        ]
     },
     RadiantList: {
         id: 'list3',
@@ -140,11 +149,11 @@ function pcbGenerate(template) {
             result = {
                 ...template[name],
                 make: generated.make,
-                children: (()=>{
+                children: (() => {
                     const result = {};
                     template[name].children ? template[name].children.map(child => {
-                         template[Object.keys(template).find(key => {
-                            if(key === child.name){
+                        template[Object.keys(template).find(key => {
+                            if (key === child.name) {
                                 result[child.alias] = {...template[key], name: child.name};
                                 return true;
                             }
@@ -177,7 +186,7 @@ export default class App extends React.Component {
             <React.Fragment>
                 <Storage pcb={this.pcb.make('Storage')}/>
                 <StorageAdvStat pcb={this.pcb.make('StorageAdvStat')}/>
-                {/*<StorageWinStat pcb={pcb.StorageWinStat}/>*/}
+                <StorageWinStat pcb={this.pcb.make('StorageWinStat')}/>
                 <StorageCounterPickerDefault pcb={this.pcb.make('StorageCounterPickerDefault')}/>
 
                 {/**Layout*/}

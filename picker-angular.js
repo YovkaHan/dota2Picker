@@ -1,3 +1,5 @@
+/**Code has been taken from http://dotapicker.com (js/logic)*/
+
 let aLastDebug = +new Date();
 const TimeCache = {};
 

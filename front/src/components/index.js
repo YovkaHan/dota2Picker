@@ -18,12 +18,14 @@ import List from './List';
 import PickList from './PickList';
 import CounterPicker from './CounterPicker';
 import Tabs from './Tabs';
+import ListSuggested from './ListSuggested';
 
 export {
     App,
     Socket,
     Core,
     List,
+    ListSuggested,
     PickList,
     Simple,
     Dummy,

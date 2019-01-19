@@ -2,6 +2,7 @@ import Core from '../Core/redux/reducer';
 import List from '../List/redux/reducer';
 import PickList from '../PickList/redux/reducer';
 import Tabs from '../Tabs/redux/reducer';
+import ListSuggested from '../ListSuggested/redux/reducer';
 import {combineReducers} from 'redux';
 import produce from "immer";
 
@@ -40,7 +41,9 @@ export default {
         List: combineReducers({
             list0: List('list0'), /**Heroes-List*/
             list1: PickList('list1'), /**Radiant Picks/Bans*/
-            list2: PickList('list2') /**Dire Picks/Bans*/
+            list2: PickList('list2') /**Dire Picks/Bans*/,
+            list3: ListSuggested('list3'),
+            list4: ListSuggested('list4')
         }),
         Tabs: combineReducers(({
             tabs0: Tabs('tabs0')
