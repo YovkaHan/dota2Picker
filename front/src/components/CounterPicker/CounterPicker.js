@@ -157,6 +157,9 @@ function makeHeroData(props) {
                 vs: {},
                 wt: {},
                 banen: {},
+                id: heroes[hero].id,
+                name: heroes[hero].name,
+                propertyName: heroes[hero].propertyName,
                 roles: heroes[hero].roles,
                 atk: heroes[hero].atk,
                 nem: {"Core": [], "Utility": [], "All": []},
@@ -272,8 +275,6 @@ function makeHeroData(props) {
             for (let aHN = 0; aHN < heroes.length; aHN++) {
                 const aThisHeroScores = result.heroPickScores[heroes[aHN].name];
                 for (let aEHN = 0; aEHN < direTeam.picks.length; aEHN++) {
-                    aThisHeroScores.id = heroes[aHN].id;
-                    aThisHeroScores.propertyName = heroes[aHN].propertyName;
                     aThisHeroScores.vs[direTeam.picks[aEHN].name] = {
                         advantage: 0,
                         winrate: 0,
@@ -604,7 +605,6 @@ class CounterPicker extends React.Component {
             <div className={`counter-picker`}>
                 <div className={`counter-picker__content`}>
                     <Tabs rootClass={`counter-picker`} pcb={pcb.make(pcb.children['Табы'].name)}/>
-                    <ListSuggested  pcb={pcb.make(pcb.children['RadiantSuggestedPicks'].name)}/>
                 </div>
             </div>
     )

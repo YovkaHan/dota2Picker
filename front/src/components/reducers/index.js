@@ -46,7 +46,8 @@ export default {
             list4: ListSuggested('list4')
         }),
         Tabs: combineReducers(({
-            tabs0: Tabs('tabs0')
+            tabs0: Tabs('tabs0'),
+            tabs1: Tabs('tabs1')
         }))
     })
 };

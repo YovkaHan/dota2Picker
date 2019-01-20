@@ -8,7 +8,9 @@ import {
     List,
     PickList,
     CounterPicker,
-    StorageCounterPickerDefault
+    StorageCounterPickerDefault,
+    Tabs,
+    ListSuggested
 } from '../';
 import Dummy from '../Dummy';
 
@@ -113,10 +115,6 @@ const pcbTemplate = {
             {
                 alias: 'Табы',
                 name: 'Tabs'
-            },
-            {
-                alias: 'RadiantSuggestedPicks',
-                name: 'RadiantList'
             }
         ]
     },
@@ -125,6 +123,12 @@ const pcbTemplate = {
         relations: {
             Storage: {
                 id: 'core5'
+            },
+            Radiant: {
+                id: 'list1',
+            },
+            Dire: {
+                id: 'list2',
             }
         }
     },
@@ -133,11 +137,84 @@ const pcbTemplate = {
         relations: {
             Storage: {
                 id: 'core5'
+            },
+            Radiant: {
+                id: 'list1',
+            },
+            Dire: {
+                id: 'list2',
             }
         }
     },
     Tabs: {
-        id: 'tabs0'
+        id: 'tabs0',
+        options: [
+            {
+                key: 'Possible Picks',
+                name: 'Possible Picks',
+                value: {
+                    node: (props)=><Tabs rootClass={props.rootClass} pcb={props.pcb}/>,
+                    props: {
+                        rootClass: 'counter-picker'
+                    },
+                    pcb: {
+                        alias: "Tabs1",
+                        name: "Tabs1",
+                    }
+                }
+            },
+            {
+                key: 'Stats',
+                name: 'Stats',
+                value: {
+                    node: (props)=>null,
+                    props: {
+                        rootClass: 'counter-picker'
+                    },
+                    pcb: {
+                        alias: "Tabs1",
+                        name: "Tabs1",
+                    }
+                }
+            }
+        ]
+    },
+    Tabs1: {
+        id: 'tabs1',
+        options: [
+            {
+                prerendered: true,
+                key: 'Radiant',
+                name: 'Radiant',
+                value: {
+                    node: (props)=><ListSuggested rootClass={props.rootClass} pcb={props.pcb} suggestionSet={props.suggestionSet}/>,
+                    props: {
+                        rootClass: 'radiant-suggestions',
+                        suggestionSet: 'suggestionsRadiant'
+                    },
+                    pcb: {
+                        alias: "RadiantList",
+                        name: "RadiantList",
+                    }
+                }
+            },
+            {
+                prerendered: true,
+                key: 'Dire',
+                name: 'Dire',
+                value: {
+                    node: (props)=><ListSuggested rootClass={props.rootClass} pcb={props.pcb} suggestionSet={props.suggestionSet}/>,
+                    props: {
+                        rootClass: 'dire-suggestions',
+                        suggestionSet: 'suggestionsDire'
+                    },
+                    pcb: {
+                        alias: "DireList",
+                        name: "DireList",
+                    }
+                }
+            },
+        ]
     }
 };
 

@@ -4,7 +4,8 @@ import * as R from 'ramda';
 
 const INIT_STATE = {
     name: "",
-    filteredData: {}
+    filteredData: {},
+    criteriaList: []
 };
 
 const cases = (type) => {

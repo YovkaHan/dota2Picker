@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 
@@ -6,6 +6,7 @@ $border-color: #9799a96b;
 
 *{
   box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
 }
 
 %c-border-style {
@@ -109,6 +110,11 @@ $border-color: #9799a96b;
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#2b0901',GradientType=0 ); /* IE6-9 */
 
   border-radius: 0;
+
+  &__item {
+    height: 100%;
+    overflow: hidden;
+  }
 }
 
 .heroes {
@@ -142,6 +148,7 @@ $border-color: #9799a96b;
   display: inline-flex;
   height: 175px;
   width: 100%;
+  flex-shrink: 0;
   justify-content: space-between;
 }
 
@@ -245,39 +252,70 @@ $border-color: #9799a96b;
   }
 }
 
+.radiant-suggestions, .dire-suggestions {
+  & {
+    display: flex;
+    width: 300px;
+    height: 100%;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+      width: 250px;
+    }
+
+    &__title {
+      flex-shrink: 0;
+      font-size: 18px;
+      color: white;
+      height: 30px;
+    }
+  }
+}
+
 .picker {
+  height: calc(100% - 175px);
   flex-grow: 1;
   display: flex;
-  padding: 20px;
+  padding: 10px 0;
 }
 
 .counter-picker {
+  display: flex;
+  flex-direction: column;
   background: #ffffff1c;
-  border: 10px solid #6d1c1c69;
+  border: 10px solid transparent;
   border-radius: 3px;
   width: 100%;
 
   &__content {
-
+    display: flex;
+    flex-direction: column;
   }
   &__tabs {
-
+    flex-shrink: 0;
+  }
+  &__view {
+    display: flex;
+    flex-direction: column;
   }
 
   .tabs {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px;
+    margin: 5px;
 
     &__item {
-      margin: 10px ;
-      padding: 10px;
+      margin: 5px 10px ;
+      padding: 5px;
       border: 1px solid black;
       border-radius: 5px;
       cursor: pointer;
       font-family: Roboto,sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 400;
       color: black;
       min-width: 140px;

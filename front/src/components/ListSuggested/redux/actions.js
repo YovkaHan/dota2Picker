@@ -26,22 +26,57 @@ export function filterData(id, dataStorageId, path = 'data', criteria) {
         } else if (criteria === 'suggestionsRadiant') {
             /** (   counterEnemy / helpTeam )*/
             const array = [];
-            Object.keys(dataFromList).map(key => {
-                array.push({
-                    id: dataFromList[key].id,
-                    sum: dataFromList[key].counterEnemyScore + dataFromList[key].helpTeamScore
+            const picksBans = (() => {
+                const radiantList = getState().Components.List['list1'];
+                const direList = getState().Components.List['list2'];
+
+                return [
+                    ...radiantList.picks.filter(pick => pick.hasOwnProperty('name')),
+                    ...radiantList.bans.filter(ban => ban.hasOwnProperty('name')),
+                    ...direList.picks.filter(pick => pick.hasOwnProperty('name')),
+                    ...direList.bans.filter(ban => ban.hasOwnProperty('name'))
+                ]
+            })();
+            if(picksBans.length){
+                Object.keys(dataFromList).map(key => {
+                    if (!picksBans.find(hero => hero.id === dataFromList[key].id))
+                        array.push({
+                            id: dataFromList[key].id,
+                            sum: dataFromList[key].counterEnemyScore + dataFromList[key].helpTeamScore
+                        });
                 });
-            });
-            array.sort((heroA , heroB) => heroB.sum - heroA.sum);
-            array.map(hero=>{
-                result["h"+hero.id] = {sum: hero.sum}
-            });
+                array.sort((heroA, heroB) => heroB.sum - heroA.sum);
+                array.map(hero => {
+                    result["h" + hero.id] = {sum: hero.sum}
+                });
+            }
+        } else if (criteria === 'suggestionsDire') {
+            const array = [];
+            const picksBans = (() => {
+                const radiantList = getState().Components.List['list1'];
+                const direList = getState().Components.List['list2'];
 
-            Object.keys(result).map(key => {
-                console.log(key, result[key].sum)
-            });
+                return [
+                    ...radiantList.picks.filter(pick => pick.hasOwnProperty('name')),
+                    ...radiantList.bans.filter(ban => ban.hasOwnProperty('name')),
+                    ...direList.picks.filter(pick => pick.hasOwnProperty('name')),
+                    ...direList.bans.filter(ban => ban.hasOwnProperty('name'))
+                ]
+            })();
+            if(picksBans.length){
+                Object.keys(dataFromList).map(key => {
+                    if (!picksBans.find(hero => hero.id === dataFromList[key].id))
+                        array.push({
+                            id: dataFromList[key].id,
+                            sum: dataFromList[key].counterTeamScore + dataFromList[key].helpEnemyScoreRaw
+                        });
+                });
+                array.sort((heroA, heroB) => heroB.sum - heroA.sum);
+                array.map(hero => {
+                    result["h" + hero.id] = {sum: hero.sum}
+                });
+            }
         }
-
 
         await dispatch({type: TYPES.FILTER, payload: result, id})
     };
