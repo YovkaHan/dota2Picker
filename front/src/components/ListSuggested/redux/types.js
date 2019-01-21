@@ -3,7 +3,9 @@ import {actionTemplate} from '../../reducers';
 const defaultTypes = {
     INITIALIZE: "INITIALIZE",
     CHANGE: "CHANGE",
-    FILTER: "FILTER"
+    FILTER: "FILTER",
+    FILTER_CRITERIA_MANAGE: "FILTER_CRITERIA_MANAGE",
+    FILTER_CRITERIA_DELETE: "FILTER_CRITERIA_DELETE"
 };
 
 const _sequence = ["name","root"];

@@ -2,7 +2,7 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {handleChange, filterData} from './redux/actions';
+import {handleChange, filterData, filterCriteriaAtk} from './redux/actions';
 // import {pick, ban} from "../PickList/redux/actions";
 import * as R from 'ramda';
 import {ban, pick} from "../PickList/redux/actions";
@@ -118,6 +118,38 @@ class ListItem extends React.Component {
     }
 }
 
+class Filter extends React.Component {
+
+    handleChange = (e) => {
+        const t = e.target;
+
+        if(t.name === 'atk'){
+            this.props.filterCriteriaAtk(t.value);
+        }
+        if(t.name === 'onlyCarries'){
+
+        }
+        if(t.name === 'onlySupports'){
+
+        }
+    };
+
+    render(){
+        const {rootClass, criteriaList} = this.props;
+        return(
+            <div className={`${rootClass}__filter`}>
+                <div className={`atk`}>
+                    <select name={`atk`} onChange={this.handleChange} value={criteriaList.atk}>
+                        <option value={'all'}>All</option>
+                        <option value={'melee'}>Melee</option>
+                        <option value={'ranged'}>Ranged</option>
+                    </select>
+                </div>
+            </div>
+        )
+    }
+}
+
 class ListSuggested extends React.Component {
 
     static defaultProps = {
@@ -219,53 +251,58 @@ class ListSuggested extends React.Component {
 
         return (
             <div className={rootClass}>
-                <div className={`${rootClass}__item`}>
-                    <div className={`${rootClass}__title`}>Carries</div>
-                    <div className={`heroes`}>
-                        <div className={`${rootClass}__main list`}>
-                            {
-                                dataIsReady ? _herosGet.carries.map((hero) => {
-                                    return (
-                                        <React.Fragment>{
-                                            hero ? <ListItem
-                                                key={hero}
-                                                filteredData={filteredData}
-                                                item={hero}
-                                                rootClass={rootClass}
-                                                data={data}
-                                                radiantPick={radiantPick}
-                                                radiantBan={radiantBan}
-                                                direPick={direPick}
-                                                direBan={direBan}
-                                            /> : null}</React.Fragment>
-                                    )
-                                }) : 'Loading ...'
-                            }
+                <div className={`${rootClass}__header`}>
+                    <Filter {...this.props}/>
+                </div>
+                <div className={`${rootClass}__body`}>
+                    <div className={`${rootClass}__item`}>
+                        <div className={`${rootClass}__title`}>Carries</div>
+                        <div className={`heroes`}>
+                            <div className={`${rootClass}__main list`}>
+                                {
+                                    dataIsReady ? _herosGet.carries.map((hero) => {
+                                        return (
+                                            <React.Fragment>{
+                                                hero ? <ListItem
+                                                    key={hero}
+                                                    filteredData={filteredData}
+                                                    item={hero}
+                                                    rootClass={rootClass}
+                                                    data={data}
+                                                    radiantPick={radiantPick}
+                                                    radiantBan={radiantBan}
+                                                    direPick={direPick}
+                                                    direBan={direBan}
+                                                /> : null}</React.Fragment>
+                                        )
+                                    }) : 'Loading ...'
+                                }
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className={`${rootClass}__item`}>
-                    <div className={`${rootClass}__title`}>Supports</div>
-                    <div className={`heroes`}>
-                        <div className={`${rootClass}__main list`}>
-                            {
-                                dataIsReady ? _herosGet.supports.map((hero) => {
-                                    return (
-                                        <React.Fragment>{
-                                            hero ? <ListItem
-                                                key={hero}
-                                                filteredData={filteredData}
-                                                item={hero}
-                                                rootClass={rootClass}
-                                                data={data}
-                                                radiantPick={radiantPick}
-                                                radiantBan={radiantBan}
-                                                direPick={direPick}
-                                                direBan={direBan}
-                                            /> : null}</React.Fragment>
-                                    )
-                                }) : 'Loading ...'
-                            }
+                    <div className={`${rootClass}__item`}>
+                        <div className={`${rootClass}__title`}>Supports</div>
+                        <div className={`heroes`}>
+                            <div className={`${rootClass}__main list`}>
+                                {
+                                    dataIsReady ? _herosGet.supports.map((hero) => {
+                                        return (
+                                            <React.Fragment>{
+                                                hero ? <ListItem
+                                                    key={hero}
+                                                    filteredData={filteredData}
+                                                    item={hero}
+                                                    rootClass={rootClass}
+                                                    data={data}
+                                                    radiantPick={radiantPick}
+                                                    radiantBan={radiantBan}
+                                                    direPick={direPick}
+                                                    direBan={direBan}
+                                                /> : null}</React.Fragment>
+                                        )
+                                    }) : 'Loading ...'
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -289,12 +326,14 @@ const mapStateToProps = (state, props) => {
     const dataFromStorage = dataFromStorageIsReady ? state.Components.Core[props.pcb.relations.Storage.id].buffer.heroPickScores : state.Components.Core[props.pcb.relations.Storage.id].buffer;
     const dataIsReady = dataFromStorageIsReady;
     const data = dataFromStorage;
+    const criteriaList = state.Components.List[props.pcb.id].criteriaList;
 
     return ({
         dataFromStorage,
         data,
         dataFromStorageIsReady,
         dataIsReady,
+        criteriaList,
         dataStatus: state.Components.Core[props.pcb.relations.Storage.id].meta.flags.setting,
         name: state.Components.List[props.pcb.id].name,
         filteredData: state.Components.List[props.pcb.id].filteredData
@@ -310,6 +349,7 @@ const mapDispatchers = (dispatch, props) => {
             ['buffer', 'heroPickScores'],
             props.suggestionSet
         ),
+        filterCriteriaAtk: (value) => filterCriteriaAtk(props.pcb.relations.Radiant.id, value),
         radiantPick: (value) => pick(props.pcb.relations.Radiant.id, value),
         radiantBan: (value) => ban(props.pcb.relations.Radiant.id, value),
         direPick: (value) => pick(props.pcb.relations.Dire.id, value),

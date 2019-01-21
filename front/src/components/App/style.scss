@@ -9,6 +9,25 @@ $border-color: #9799a96b;
   font-family: 'Roboto', sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #236820;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 223, 78, 0.53);
+}
+
 %c-border-style {
   border-top: 3px ridge $border-color;
   border-left: 2px solid $border-color;
@@ -255,8 +274,20 @@ $border-color: #9799a96b;
 .radiant-suggestions, .dire-suggestions {
   & {
     display: flex;
-    width: 300px;
+    flex-wrap: wrap;
     height: 100%;
+
+    &__header {
+      display: flex;
+      height: 50px;
+      width: 100%;
+    }
+
+    &__body {
+      display: flex;
+      height: calc(100% - 50px);
+      width: 100%;
+    }
 
     &__item {
       display: flex;
@@ -264,6 +295,7 @@ $border-color: #9799a96b;
 
       align-items: center;
       width: 250px;
+      height: 500px;
     }
 
     &__title {

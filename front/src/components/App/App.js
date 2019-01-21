@@ -178,6 +178,20 @@ const pcbTemplate = {
                         name: "Tabs1",
                     }
                 }
+            },
+            {
+                key: 'Random',
+                name: 'Random',
+                value: {
+                    node: (props)=>null,
+                    props: {
+                        rootClass: 'counter-picker'
+                    },
+                    pcb: {
+                        alias: "Tabs1",
+                        name: "Tabs1",
+                    }
+                }
             }
         ]
     },
