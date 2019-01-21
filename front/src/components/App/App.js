@@ -150,6 +150,7 @@ const pcbTemplate = {
         id: 'tabs0',
         options: [
             {
+                prerendered: true,
                 key: 'Possible Picks',
                 name: 'Possible Picks',
                 value: {
@@ -164,6 +165,7 @@ const pcbTemplate = {
                 }
             },
             {
+                prerendered: true,
                 key: 'Stats',
                 name: 'Stats',
                 value: {

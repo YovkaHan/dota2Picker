@@ -134,6 +134,12 @@ class ListSuggested extends React.Component {
         };
 
         this.initLoop = this.initLoop.bind(this);
+
+        if(props.dataFromStorageIsReady) {
+            this.state.initiated = true;
+            this.initLoop();
+        }
+
     }
 
     /**В initLoop нам не нужны

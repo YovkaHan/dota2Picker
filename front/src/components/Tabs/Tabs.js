@@ -31,27 +31,27 @@ class _Tabs extends React.Component {
     componentDidUpdate(){
         const {currentTab, pcb} = this.props;
 
-        if(this.state.renderedOptionKey !== this.props.currentTab
-            && this.prerendered.hasOwnProperty(this.state.renderedOptionKey) /** Есть ли option в this.prerendere*/
-            && pcb.options.find(option => option.key === this.state.renderedOptionKey && option.hasOwnProperty('prerendered') && option.prerendered) /** Если option указан как prerendered*/
-        ){
-
-            this.prerendered[this.state.renderedOptionKey] = this.state.renderedOption;
-        }
+        // if(this.state.renderedOptionKey !== this.props.currentTab
+        //     && !this.prerendered.hasOwnProperty(this.state.renderedOptionKey) /** Есть ли option в this.prerendere*/
+        //     && pcb.options.find(option => option.key === this.state.renderedOptionKey && option.hasOwnProperty('prerendered') && option.prerendered) /** Если option указан как prerendered*/
+        // ){
+        //
+        //     this.prerendered[this.state.renderedOptionKey] = this.state.renderedOption;
+        // }
         if(this.state.renderedOptionKey !== this.props.currentTab){
             const _option = pcb.options.find(option => option.key === currentTab);
-            const props = _option ? {..._option.value.props, pcb: pcb.make(_option.value.pcb.name)} : {};
 
             if(_option && _option.hasOwnProperty('prerendered') && _option.prerendered){
-                const buff = this.prerendered[_option.key];
-
-                delete this.prerendered[_option.key];
+                // const buff = this.prerendered[_option.key];
+                //
+                // delete this.prerendered[_option.key];
 
                 this.setState({
                     renderedOptionKey: _option.key,
-                    renderedOption: buff
+                     renderedOption: null
                 })
             } else {
+                const props = _option ? {..._option.value.props, pcb: pcb.make(_option.value.pcb.name)} : {};
                 this.setState({
                     renderedOptionKey: _option ? _option.key : this.props.currentTab,
                     renderedOption: _option ? _option.value.node(props) : null
@@ -70,6 +70,7 @@ class _Tabs extends React.Component {
                         pcb.options.map(option => {
                             return (
                                 <div
+                                    key={option.key}
                                     className={`tabs__item ${currentTab === option.key ? 'tabs__item--active' : ''}`}
                                     onClick={() => handleChange(option.key)}
                                 >{option.name}</div>
@@ -82,7 +83,10 @@ class _Tabs extends React.Component {
                         this.state.renderedOption
                     }
                     {
-                        (() => Object.keys(this.prerendered).map(key => <div style={{display: 'none'}}>{this.prerendered[key]}</div>))()
+                        (() => Object.keys(this.prerendered).map(key => <div
+                            key={key}
+                            style={this.state.renderedOptionKey === key ? {display: 'flex', 'flexDirection': 'column'} : {display: 'none'}}
+                        >{this.prerendered[key]}</div>))()
                     }
                 </div>
             </React.Fragment>
