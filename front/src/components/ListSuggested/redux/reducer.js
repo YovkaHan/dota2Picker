@@ -3,7 +3,7 @@ import {createReducer} from '../../reducers'
 import * as R from 'ramda';
 
 export const criterias = {
-    atk: ['', 'melee', 'ranged'],
+    atk: ['melee', 'ranged'],
     carry: [true, false],
     support: [true, false]
 };
@@ -12,7 +12,7 @@ const INIT_STATE = {
     name: "",
     filteredData: {},
     criteriaList: {
-        atk : "",
+        atk: ['melee', 'ranged'],
         carry: true,
         support: true
     }
@@ -47,7 +47,7 @@ const cases = (type) => {
         }
         case TYPES.FILTER_CRITERIA_MANAGE: {
             return (draft, payload) => {
-                draft.criteriaList[payload.key] = payload.value
+                draft.criteriaList[payload.key] = payload.values
             };
         }
         default : {

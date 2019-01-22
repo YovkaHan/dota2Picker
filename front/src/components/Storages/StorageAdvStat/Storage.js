@@ -2,13 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import {Socket} from "../../index";
 
-function req(options) {
-    return axios({
-        ...options,
-        withCredentials: true
-    })
-}
-
 class Storage extends React.Component {
     constructor(props) {
         super(props);

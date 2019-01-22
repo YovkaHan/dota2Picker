@@ -26,7 +26,7 @@ class Core extends React.Component {
             },
         };
 
-        this.sequenceManage = this.sequenceManage.bind(this);
+        this.sequenceManage = ::this.sequenceManage;
     }
 
     sequenceManage(id, foo) {

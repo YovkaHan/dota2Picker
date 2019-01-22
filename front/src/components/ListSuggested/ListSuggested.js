@@ -6,6 +6,7 @@ import {handleChange, filterData, filterCriteriaAtk} from './redux/actions';
 // import {pick, ban} from "../PickList/redux/actions";
 import * as R from 'ramda';
 import {ban, pick} from "../PickList/redux/actions";
+import {_Select} from '../';
 
 // import { createSelector } from 'reselect';
 
@@ -120,16 +121,15 @@ class ListItem extends React.Component {
 
 class Filter extends React.Component {
 
-    handleChange = (e) => {
-        const t = e.target;
+    handleChange = (name, values) => {
 
-        if(t.name === 'atk'){
-            this.props.filterCriteriaAtk(t.value);
+        if(name === 'atk'){
+            this.props.filterCriteriaAtk(values);
         }
-        if(t.name === 'onlyCarries'){
+        if(name === 'onlyCarries'){
 
         }
-        if(t.name === 'onlySupports'){
+        if(name === 'onlySupports'){
 
         }
     };
@@ -138,12 +138,26 @@ class Filter extends React.Component {
         const {rootClass, criteriaList} = this.props;
         return(
             <div className={`${rootClass}__filter`}>
+                {/*<div className={`atk`}>*/}
+                    {/*<select name={`atk`} onChange={this.handleChange} value={criteriaList.atk}>*/}
+                        {/*<option value={'all'}>All</option>*/}
+                        {/*<option value={'melee'}>Melee</option>*/}
+                        {/*<option value={'ranged'}>Ranged</option>*/}
+                    {/*</select>*/}
+                {/*</div>*/}
                 <div className={`atk`}>
-                    <select name={`atk`} onChange={this.handleChange} value={criteriaList.atk}>
-                        <option value={'all'}>All</option>
-                        <option value={'melee'}>Melee</option>
-                        <option value={'ranged'}>Ranged</option>
-                    </select>
+                    <_Select
+                        rootClass="filter-select"
+                        label="Attack Type"
+                        placeholder="Select attack type"
+                        values={criteriaList.atk}
+                        options={[
+                            { value: 'melee', text: 'Melee'},
+                            { value: 'ranged', text: 'Ranged' }
+                        ]}
+                        multiple
+                        postValues={(values)=>{this.handleChange('atk',values)}}
+                    />
                 </div>
             </div>
         )
@@ -349,7 +363,7 @@ const mapDispatchers = (dispatch, props) => {
             ['buffer', 'heroPickScores'],
             props.suggestionSet
         ),
-        filterCriteriaAtk: (value) => filterCriteriaAtk(props.pcb.relations.Radiant.id, value),
+        filterCriteriaAtk: (values) => filterCriteriaAtk(props.pcb.id, values),
         radiantPick: (value) => pick(props.pcb.relations.Radiant.id, value),
         radiantBan: (value) => ban(props.pcb.relations.Radiant.id, value),
         direPick: (value) => pick(props.pcb.relations.Dire.id, value),

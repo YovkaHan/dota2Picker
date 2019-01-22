@@ -19,6 +19,7 @@ import PickList from './PickList';
 import CounterPicker from './CounterPicker';
 import Tabs from './Tabs';
 import ListSuggested from './ListSuggested';
+import _Select from './Select';
 
 export {
     App,
@@ -33,6 +34,7 @@ export {
     OutputXY,
     OutputX,
     OutputY,
+    _Select,
     Storage,
     StorageAdvStat,
     StorageWinStat,

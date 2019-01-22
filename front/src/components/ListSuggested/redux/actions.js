@@ -10,20 +10,20 @@ export function handleChange(id, index) {
     return async dispatch => await dispatch({type: TYPES.CHANGE, payload: index, id});
 }
 
-export function filterCriteriaAtk(id, value){
+export function filterCriteriaAtk(id, values){
     const _key = 'atk';
-    const _value = criterias[_key].indexOf(value) >= 0 ? value : criterias[_key][0];
-    return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, value: _value}, id});
+    const _values = values.filter(value => criterias[_key].indexOf(value) >= 0);
+    return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, values: _values.length ? _values: [...criterias]}, id});
 }
 
-export function filterCriteria(id, key, value) {
+export function filterCriteria(id, key, values) {
     const cList = getState().Components.List[id].criteriaList;
 
     if(criterias.hasOwnProperty(key)){
         if(value === undefined){
             return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_DELETE, payload: {key}, id});
         }
-        return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key, value}, id});
+        return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key, values}, id});
     } else {
         return async dispatch => await dispatch({type: 'ERROR'});
     }
