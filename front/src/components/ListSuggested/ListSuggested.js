@@ -126,10 +126,10 @@ class Filter extends React.Component {
         if(name === 'atk'){
             this.props.filterCriteriaAtk(values);
         }
-        if(name === 'onlyCarries'){
+        if(name === 'mainRole'){
 
         }
-        if(name === 'onlySupports'){
+        if(name === 'subRole'){
 
         }
     };
@@ -158,6 +158,20 @@ class Filter extends React.Component {
                         multiple
                         postValues={(values)=>{this.handleChange('atk',values)}}
                     />
+                </div>
+                <div className={`main-role`}>
+                    {/*<_Select*/}
+                        {/*rootClass="filter-select"*/}
+                        {/*label="Attack Type"*/}
+                        {/*placeholder="Select attack type"*/}
+                        {/*values={criteriaList.atk}*/}
+                        {/*options={[*/}
+                            {/*{ value: 'melee', text: 'Melee'},*/}
+                            {/*{ value: 'ranged', text: 'Ranged' }*/}
+                        {/*]}*/}
+                        {/*multiple*/}
+                        {/*postValues={(values)=>{this.handleChange('atk',values)}}*/}
+                    {/*/>*/}
                 </div>
             </div>
         )

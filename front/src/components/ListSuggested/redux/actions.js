@@ -16,6 +16,12 @@ export function filterCriteriaAtk(id, values){
     return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, values: _values.length ? _values: [...criterias]}, id});
 }
 
+export function filterCriteriaMainRole(id, values){
+    const _key = 'roles';
+    const _values = values.filter(value => criterias[_key].indexOf(value) >= 0);
+    return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, values: _values.length ? _values: [...criterias]}, id});
+}
+
 export function filterCriteria(id, key, values) {
     const cList = getState().Components.List[id].criteriaList;
 

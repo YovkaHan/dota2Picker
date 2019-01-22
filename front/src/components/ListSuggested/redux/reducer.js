@@ -4,8 +4,11 @@ import * as R from 'ramda';
 
 export const criterias = {
     atk: ['melee', 'ranged'],
-    carry: [true, false],
-    support: [true, false]
+    roles: ['Carry', 'Support', 'Nuker',
+        'Disabler', 'Jungler', 'Durable',
+        'Escape', 'Pusher', 'Initiator',
+        'Hard-carry', 'Semi-carry', 'Ganker',
+        'Roamer', 'Offlaner'],
 };
 
 const INIT_STATE = {
@@ -13,8 +16,12 @@ const INIT_STATE = {
     filteredData: {},
     criteriaList: {
         atk: ['melee', 'ranged'],
-        carry: true,
-        support: true
+        roles: criterias.roles.map(role=>{
+            return {
+                name: role,
+                value: '1' /** 0 - исключение, 1 - может быть, 2 - включение*/
+            }
+        })
     }
 };
 
