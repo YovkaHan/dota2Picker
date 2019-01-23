@@ -11,15 +11,21 @@ export const criterias = {
         'Roamer', 'Offlaner'],
 };
 
-const INIT_STATE = {
+export const INIT_STATE = {
     name: "",
     filteredData: {},
     criteriaList: {
-        atk: ['melee', 'ranged'],
+        atk: criterias.atk.map(a=>{
+            return {
+                name: a,
+                status: '1', /** 0 - исключение, 1 - дефолт, 2 - включение*/
+            }
+        }),
         roles: criterias.roles.map(role=>{
             return {
                 name: role,
-                value: '1' /** 0 - исключение, 1 - может быть, 2 - включение*/
+                status: '1', /** 0 - исключение, 1 - дефолт, 2 - включение*/
+                value: 1
             }
         })
     }

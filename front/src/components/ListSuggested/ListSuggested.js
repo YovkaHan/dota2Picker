@@ -150,7 +150,7 @@ class Filter extends React.Component {
                         rootClass="filter-select"
                         label="Attack Type"
                         placeholder="Select attack type"
-                        values={criteriaList.atk}
+                        values={criteriaList.atk.filter(value => value.status === '2').map(value => value.name)}
                         options={[
                             { value: 'melee', text: 'Melee'},
                             { value: 'ranged', text: 'Ranged' }

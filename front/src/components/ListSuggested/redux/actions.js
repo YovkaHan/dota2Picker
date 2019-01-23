@@ -1,6 +1,6 @@
 import {TYPES} from "./types";
 import * as R from 'ramda';
-import {criterias} from './reducer';
+import {criterias, INIT_STATE} from './reducer';
 
 export function initialize(id) {
     return async dispatch => await dispatch({type: TYPES.INITIALIZE, id});
@@ -13,7 +13,13 @@ export function handleChange(id, index) {
 export function filterCriteriaAtk(id, values){
     const _key = 'atk';
     const _values = values.filter(value => criterias[_key].indexOf(value) >= 0);
-    return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, values: _values.length ? _values: [...criterias]}, id});
+    return async dispatch =>
+        await dispatch(
+            {
+                type: TYPES.FILTER_CRITERIA_MANAGE,
+                payload: {key: _key, values: _values.length ? _values.map(value=>{return{name: value, status: 2}}): R.clone(INIT_STATE.criteriaList.atk)},
+                id
+            });
 }
 
 export function filterCriteriaMainRole(id, values){

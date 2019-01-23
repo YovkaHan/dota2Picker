@@ -279,7 +279,7 @@ $border-color: #9799a96b;
 
     &__header {
       display: flex;
-      height: 100px;
+      height: 110px;
       width: 100%;
     }
 
@@ -289,13 +289,21 @@ $border-color: #9799a96b;
       width: 100%;
     }
 
+    &__filter {
+      padding: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     &__item {
       display: flex;
       flex-direction: column;
 
       align-items: center;
       width: 250px;
-      height: 500px;
+      height: calc(100vh - 400px);
     }
 
     &__title {
@@ -317,7 +325,7 @@ $border-color: #9799a96b;
 .counter-picker {
   display: flex;
   flex-direction: column;
-  background: #ffffff1c;
+  background: transparent;
   border: 10px solid transparent;
   border-radius: 3px;
   width: 100%;
@@ -338,19 +346,19 @@ $border-color: #9799a96b;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 5px;
+    margin: 2px;
 
     &__item {
-      margin: 5px 10px ;
-      padding: 5px;
+      margin: 5px;
+      padding: 3px;
       border: 1px solid black;
       border-radius: 5px;
       cursor: pointer;
       font-family: Roboto,sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 400;
       color: black;
-      min-width: 140px;
+      min-width: 120px;
       text-align: center;
       background: white;
       transition: 0.2s all ease;
@@ -363,12 +371,12 @@ $border-color: #9799a96b;
       }
 
       &:hover {
-        background: #bdbdbd;
+        background: #a12626;
         font-weight: 500;
       }
 
       &--active {
-        background: black;
+        background: rgba(255, 218, 60, 0.64);
         text-decoration: underline;
         color: white;
       }
