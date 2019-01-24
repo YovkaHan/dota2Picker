@@ -21,13 +21,14 @@ export const INIT_STATE = {
                 status: 1, /** 0 - исключение, 1 - дефолт, 2 - включение*/
             }
         }),
-        roles: criterias.roles.map(role=>{
-            return {
-                name: role,
-                status: 1, /** 0 - исключение, 1 - дефолт, 2 - включение*/
-                value: 1
-            }
-        })
+        roles: []
+        // roles: criterias.roles.map(role=>{
+        //     return {
+        //         name: role,
+        //         status: 1, /** 0 - исключение, 1 - дефолт, 2 - включение*/
+        //         value: 1
+        //     }
+        // })
     }
 };
 

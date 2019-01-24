@@ -380,6 +380,10 @@ class Select extends Component {
         return JSON.stringify(this.state) !== JSON.stringify(nextState) || JSON.stringify(this.props.values) !== JSON.stringify(nextProps.values)
     }
 
+    componentDidMount(){
+        this.props.postValues(this.state.values);
+    }
+
     render() {
         const { label, rootClass } = this.props;
         const { isOpen } = this.state;

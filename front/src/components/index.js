@@ -20,6 +20,7 @@ import CounterPicker from './CounterPicker';
 import Tabs from './Tabs';
 import ListSuggested from './ListSuggested';
 import _Select from './Select';
+import _SelectR from './SelectR';
 
 export {
     App,
@@ -35,6 +36,7 @@ export {
     OutputX,
     OutputY,
     _Select,
+    _SelectR,
     Storage,
     StorageAdvStat,
     StorageWinStat,

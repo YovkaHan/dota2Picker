@@ -130,7 +130,11 @@ const pcbTemplate = {
             Dire: {
                 id: 'list2',
             }
-        }
+        },
+        children: [{
+            alias: "Select",
+            name: "Select0"
+        }]
     },
     DireList: {
         id: 'list4',
@@ -144,7 +148,11 @@ const pcbTemplate = {
             Dire: {
                 id: 'list2',
             }
-        }
+        },
+        children: [{
+            alias: "Select",
+            name: "Select1"
+        }]
     },
     Tabs: {
         id: 'tabs0',
@@ -231,6 +239,12 @@ const pcbTemplate = {
                 }
             },
         ]
+    },
+    Select0: {
+        id: 'select0'
+    },
+    Select1: {
+        id: 'select1'
     }
 };
 

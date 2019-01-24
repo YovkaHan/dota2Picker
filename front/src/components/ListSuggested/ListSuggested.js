@@ -2,12 +2,12 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {handleChange, filterData, filterCriteriaAtk, filterCriteriaRole} from './redux/actions';
+import {handleChange, filterData, filterCriteriaAtk, filterCriteriaRole, filterCriteriaRoleChange} from './redux/actions';
 // import {pick, ban} from "../PickList/redux/actions";
 import * as R from 'ramda';
 import {ban, pick} from "../PickList/redux/actions";
 import {criterias} from './redux/reducer';
-import {_Select} from '../';
+import {_Select, _SelectR} from '../';
 
 // import { createSelector } from 'reselect';
 
@@ -136,7 +136,7 @@ class Filter extends React.Component {
     };
 
     render(){
-        const {rootClass, criteriaList} = this.props;
+        const {rootClass, criteriaList, pcb} = this.props;
         return(
             <div className={`${rootClass}__filter filter`}>
                 {/*<div className={`atk`}>*/}
@@ -161,14 +161,14 @@ class Filter extends React.Component {
                     />
                 </div>
                 <div className={`filter__item role`}>
-                    <_Select
+                    <_SelectR
+                        pcb={pcb.make(pcb.children['Select'].name)}
                         rootClass="filter-select"
                         label="Role Type"
                         placeholder="Select role type"
-                        values={criteriaList.roles.filter(value => value.status === '2').map(value => value.name)}
+                        /**values={criteriaList.roles.filter(value => value.status === '2').map(value => value.name)}*/
                         options={criterias.roles.map(role=>{return { value: role, text: role}})}
                         multiple
-                        postValues={(values)=> this.handleChange('roles',values)}
                     />
                 </div>
             </div>
@@ -179,7 +179,7 @@ class Filter extends React.Component {
 class RoleList extends React.Component {
 
     handleChange(names, props){
-        this.props.filterCriteriaRole(names, props);
+        this.props.filterCriteriaRoleChange(names, props);
     }
 
     render(){
@@ -295,6 +295,10 @@ class ListSuggested extends React.Component {
             filteredData: nextProps.filteredData
         };
 
+        if(JSON.stringify(this.props.selectValues) !== JSON.stringify(nextProps.selectValues)){
+            this.props.filterCriteriaRole(nextProps.selectValues)
+        }
+
         return !(JSON.stringify(oldO) === JSON.stringify(newO));
     }
 
@@ -407,6 +411,7 @@ const mapStateToProps = (state, props) => {
     const dataIsReady = dataFromStorageIsReady;
     const data = dataFromStorage;
     const criteriaList = state.Components.List[props.pcb.id].criteriaList;
+    const selectValues = state.Components.Select[props.pcb.children['Select'].id].values;
 
     return ({
         dataFromStorage,
@@ -416,7 +421,8 @@ const mapStateToProps = (state, props) => {
         criteriaList,
         dataStatus: state.Components.Core[props.pcb.relations.Storage.id].meta.flags.setting,
         name: state.Components.List[props.pcb.id].name,
-        filteredData: state.Components.List[props.pcb.id].filteredData
+        filteredData: state.Components.List[props.pcb.id].filteredData,
+        selectValues
     })
 };
 
@@ -431,6 +437,7 @@ const mapDispatchers = (dispatch, props) => {
         ),
         filterCriteriaAtk: (values) => filterCriteriaAtk(props.pcb.id, values),
         filterCriteriaRole: (values, _props) => filterCriteriaRole(props.pcb.id, values, _props),
+        filterCriteriaRoleChange: (values, _props) => filterCriteriaRoleChange(props.pcb.id, values, _props),
         radiantPick: (value) => pick(props.pcb.relations.Radiant.id, value),
         radiantBan: (value) => ban(props.pcb.relations.Radiant.id, value),
         direPick: (value) => pick(props.pcb.relations.Dire.id, value),

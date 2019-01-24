@@ -3,6 +3,7 @@ import List from '../List/redux/reducer';
 import PickList from '../PickList/redux/reducer';
 import Tabs from '../Tabs/redux/reducer';
 import ListSuggested from '../ListSuggested/redux/reducer';
+import Select from '../SelectR/redux/reducer';
 import {combineReducers} from 'redux';
 import produce from "immer";
 
@@ -48,6 +49,10 @@ export default {
         Tabs: combineReducers(({
             tabs0: Tabs('tabs0'),
             tabs1: Tabs('tabs1')
-        }))
+        })),
+        Select: combineReducers({
+            select0: Select('select0'), /** Radiant hero roles*/
+            select1: Select('select1'), /** Dire hero roles*/
+        })
     })
 };
