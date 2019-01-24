@@ -18,13 +18,13 @@ export const INIT_STATE = {
         atk: criterias.atk.map(a=>{
             return {
                 name: a,
-                status: '1', /** 0 - исключение, 1 - дефолт, 2 - включение*/
+                status: 1, /** 0 - исключение, 1 - дефолт, 2 - включение*/
             }
         }),
         roles: criterias.roles.map(role=>{
             return {
                 name: role,
-                status: '1', /** 0 - исключение, 1 - дефолт, 2 - включение*/
+                status: 1, /** 0 - исключение, 1 - дефолт, 2 - включение*/
                 value: 1
             }
         })

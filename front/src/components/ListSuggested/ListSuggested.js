@@ -2,10 +2,11 @@ import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {handleChange, filterData, filterCriteriaAtk} from './redux/actions';
+import {handleChange, filterData, filterCriteriaAtk, filterCriteriaRole} from './redux/actions';
 // import {pick, ban} from "../PickList/redux/actions";
 import * as R from 'ramda';
 import {ban, pick} from "../PickList/redux/actions";
+import {criterias} from './redux/reducer';
 import {_Select} from '../';
 
 // import { createSelector } from 'reselect';
@@ -126,8 +127,8 @@ class Filter extends React.Component {
         if(name === 'atk'){
             this.props.filterCriteriaAtk(values);
         }
-        if(name === 'mainRole'){
-
+        if(name === 'roles'){
+            this.props.filterCriteriaRole(values);
         }
         if(name === 'subRole'){
 
@@ -137,7 +138,7 @@ class Filter extends React.Component {
     render(){
         const {rootClass, criteriaList} = this.props;
         return(
-            <div className={`${rootClass}__filter`}>
+            <div className={`${rootClass}__filter filter`}>
                 {/*<div className={`atk`}>*/}
                     {/*<select name={`atk`} onChange={this.handleChange} value={criteriaList.atk}>*/}
                         {/*<option value={'all'}>All</option>*/}
@@ -145,7 +146,7 @@ class Filter extends React.Component {
                         {/*<option value={'ranged'}>Ranged</option>*/}
                     {/*</select>*/}
                 {/*</div>*/}
-                <div className={`atk`}>
+                <div className={`filter__item atk`}>
                     <_Select
                         rootClass="filter-select"
                         label="Attack Type"
@@ -159,20 +160,68 @@ class Filter extends React.Component {
                         postValues={(values)=>{this.handleChange('atk',values)}}
                     />
                 </div>
-                <div className={`main-role`}>
-                    {/*<_Select*/}
-                        {/*rootClass="filter-select"*/}
-                        {/*label="Attack Type"*/}
-                        {/*placeholder="Select attack type"*/}
-                        {/*values={criteriaList.atk}*/}
-                        {/*options={[*/}
-                            {/*{ value: 'melee', text: 'Melee'},*/}
-                            {/*{ value: 'ranged', text: 'Ranged' }*/}
-                        {/*]}*/}
-                        {/*multiple*/}
-                        {/*postValues={(values)=>{this.handleChange('atk',values)}}*/}
-                    {/*/>*/}
+                <div className={`filter__item role`}>
+                    <_Select
+                        rootClass="filter-select"
+                        label="Role Type"
+                        placeholder="Select role type"
+                        values={criteriaList.roles.filter(value => value.status === '2').map(value => value.name)}
+                        options={criterias.roles.map(role=>{return { value: role, text: role}})}
+                        multiple
+                        postValues={(values)=> this.handleChange('roles',values)}
+                    />
                 </div>
+            </div>
+        )
+    }
+}
+
+class RoleList extends React.Component {
+
+    handleChange(names, props){
+        this.props.filterCriteriaRole(names, props);
+    }
+
+    render(){
+
+        const {criteriaList} = this.props;
+
+        return(
+            <div className={`role-list`}>
+                {criteriaList.roles.map(role => {
+                    return(
+                        <React.Fragment>
+                            {role.status !== 1 ?<div className={`role-list__item role`}>
+                            <div className={`role__switcher`} onClick={()=>{this.handleChange('switch')}}>
+                                {role.status === 2 ? 'ON' : 'OFF'}
+                            </div>
+                            <div className={`role__main`}>
+                                <div className={`role__name`}>{role.name}</div>
+                                <div className={`role__value`}>
+                                    <div
+                                        className={`role__value-point ${role.value >= 1 ? 'role__value-point--active': ''}`}
+                                        onClick={()=>this.handleChange(
+                                            [role.name],{[role.name]:{status:role.status, value: 1}}
+                                        )}
+                                    ></div>
+                                    <div
+                                        className={`role__value-point ${role.value >= 2 ? 'role__value-point--active': ''}`}
+                                        onClick={()=>this.handleChange(
+                                            [role.name],{[role.name]:{status:role.status, value: 2}}
+                                        )}
+                                    ></div>
+                                    <div
+                                        className={`role__value-point ${role.value >= 3 ? 'role__value-point--active': ''}`}
+                                        onClick={()=>this.handleChange(
+                                            [role.name],{[role.name]:{status:role.status, value: 3}}
+                                        )}
+                                    ></div>
+                                </div>
+                            </div>
+                        </div> : null}
+                        </React.Fragment>
+                    )
+                })}
             </div>
         )
     }
@@ -333,6 +382,9 @@ class ListSuggested extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <div className={`${rootClass}__item ${rootClass}__item--left`}>
+                        <RoleList {...this.props}/>
+                    </div>
                 </div>
             </div>
         )
@@ -378,6 +430,7 @@ const mapDispatchers = (dispatch, props) => {
             props.suggestionSet
         ),
         filterCriteriaAtk: (values) => filterCriteriaAtk(props.pcb.id, values),
+        filterCriteriaRole: (values, _props) => filterCriteriaRole(props.pcb.id, values, _props),
         radiantPick: (value) => pick(props.pcb.relations.Radiant.id, value),
         radiantBan: (value) => ban(props.pcb.relations.Radiant.id, value),
         direPick: (value) => pick(props.pcb.relations.Dire.id, value),

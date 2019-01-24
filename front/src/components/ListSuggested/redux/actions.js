@@ -22,10 +22,28 @@ export function filterCriteriaAtk(id, values){
             });
 }
 
-export function filterCriteriaMainRole(id, values){
+export function filterCriteriaRole(id, names, props) {
     const _key = 'roles';
-    const _values = values.filter(value => criterias[_key].indexOf(value) >= 0);
-    return async dispatch => await dispatch({type: TYPES.FILTER_CRITERIA_MANAGE, payload: {key: _key, values: _values.length ? _values: [...criterias]}, id});
+    const _names = names.filter(name => criterias[_key].indexOf(name) >= 0);
+    return async dispatch =>
+        await dispatch(
+            {
+                type: TYPES.FILTER_CRITERIA_MANAGE,
+                payload: {
+                    key: _key,
+                    values:
+                        _names.length ?
+                            _names.map((name)=>{
+                                return {
+                                    name,
+                                    status: props ? props[name] ? props[name].status : 2 : 2,
+                                    value: props ? props[name] ? props[name].value : 1 : 1
+                                }
+                            }):
+                            R.clone(INIT_STATE.criteriaList.atk)
+                },
+                id
+            });
 }
 
 export function filterCriteria(id, key, values) {
