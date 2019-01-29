@@ -322,7 +322,7 @@ $border-color: #9799a96b;
       flex-shrink: 0;
       font-size: 18px;
       color: white;
-      height: 30px;
+      line-height: 50px;
     }
   }
 }
@@ -333,7 +333,8 @@ $border-color: #9799a96b;
   overflow-y: scroll;
 
   &__item {
-
+    display: flex;
+    align-items: center;
   }
 
   .role {
@@ -348,6 +349,8 @@ $border-color: #9799a96b;
     &__switcher {
       min-width: 50px;
       margin: 10px;
+      font-size: 26px;
+      display: flex;
     }
     &__main {
       display: flex;
@@ -362,20 +365,11 @@ $border-color: #9799a96b;
     &__value {
       display: flex;
       width: 50px;
+      font-size: 20px;
       justify-content: space-evenly;
 
       &-point {
-        font-size: 17px;
-
-        &:before {
-          content: '◊';
-        }
-
         &--active {
-          font-size: 19px;
-          &:before {
-            content: '♦';
-          }
         }
       }
     }

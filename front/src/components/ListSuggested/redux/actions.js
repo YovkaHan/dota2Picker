@@ -69,11 +69,12 @@ export function filterCriteriaRole(id, names, props) {
                         _names.length ?
                             _names.map((name) => {
                                 const result = rolesFromStore.find(role => role.name === name);
+                                console.log(names, props);
                                 return result ?
                                     {
                                         name,
-                                        status: props ? props[name] ? props[name].status : result.status : 2,
-                                        value: props ? props[name] ? props[name].value : result.value : 1
+                                        status: props ? props[name] ? props[name].status : result.status : result.status,
+                                        value: props ? props[name] ? props[name].value : result.value : result.value
                                     }
                                     :
                                     {
@@ -120,6 +121,7 @@ export function filterData(id, dataStorageId, path = 'data', criteria) {
         } else if (criteria === 'suggestionsRadiant') {
             /** (   counterEnemy / helpTeam )*/
             const array = [];
+            const criteriaList = getState().Components.List[id].criteriaList;
             const picksBans = (() => {
                 const radiantList = getState().Components.List['list1'];
                 const direList = getState().Components.List['list2'];
@@ -140,12 +142,24 @@ export function filterData(id, dataStorageId, path = 'data', criteria) {
                         });
                 });
                 array.sort((heroA, heroB) => heroB.sum - heroA.sum);
-                array.map(hero => {
-                    result["h" + hero.id] = {sum: hero.sum}
-                });
+
+                for(let i in array){
+                    const hero = array[i];
+                    const _hero = dataFromList[Object.keys(dataFromList).find(key => hero.id === dataFromList[key].id)];
+
+                    const filters = [
+                        filterFunctionHeroByAtk(_hero, criteriaList.atk),
+                        filterFunctionHeroByRole(_hero, criteriaList.roles)
+                    ];
+
+                    if(filters.every(f => f)){
+                        result["h" + hero.id] = {sum: hero.sum}
+                    }
+                }
             }
         } else if (criteria === 'suggestionsDire') {
             const array = [];
+            const criteriaList = getState().Components.List[id].criteriaList;
             const picksBans = (() => {
                 const radiantList = getState().Components.List['list1'];
                 const direList = getState().Components.List['list2'];
@@ -166,14 +180,50 @@ export function filterData(id, dataStorageId, path = 'data', criteria) {
                         });
                 });
                 array.sort((heroA, heroB) => heroB.sum - heroA.sum);
-                array.map(hero => {
-                    result["h" + hero.id] = {sum: hero.sum}
-                });
+
+
+                for(let i in array){
+                    const hero = array[i];
+                    const _hero = dataFromList[Object.keys(dataFromList).find(key => hero.id === dataFromList[key].id)];
+
+                    const filters = [
+                        filterFunctionHeroByAtk(_hero, criteriaList.atk),
+                        filterFunctionHeroByRole(_hero, criteriaList.roles)
+                    ];
+
+                    if(filters.every(f => f)){
+                        result["h" + hero.id] = {sum: hero.sum}
+                    }
+                }
             }
         }
 
         await dispatch({type: TYPES.FILTER, payload: result, id})
     };
+}
+
+function filterFunctionHeroByAtk(hero, atk) {
+    return atk.map(a=>{
+        if(a.status === 2){
+            return hero.atk.indexOf(a.name) >= 0
+        } else  if(a.status === 0){
+            return hero.atk.indexOf(a.name) === -1
+        } else {
+            return true;
+        }
+    }).every(r => r);
+}
+
+function filterFunctionHeroByRole(hero, role) {
+    return role.map(r=>{
+        if(r.status === 2){
+            return hero.roles.indexOf(r.name) >= 0 && hero.rolesIndex[r.name] >= r.value
+        } else  if(r.status === 0){
+            return hero.roles.indexOf(r.name) === -1
+        } else {
+            return true;
+        }
+    }).every(r => r);
 }
 
 

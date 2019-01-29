@@ -8,6 +8,8 @@ import * as R from 'ramda';
 import {ban, pick} from "../PickList/redux/actions";
 import {criterias} from './redux/reducer';
 import {_Select, _SelectR} from '../';
+import Switch from "react-switch";
+import { IoIosRadioButtonOn, IoIosRadioButtonOff } from 'react-icons/io';
 
 // import { createSelector } from 'reselect';
 
@@ -179,7 +181,8 @@ class Filter extends React.Component {
 class RoleList extends React.Component {
 
     handleChange(names, props){
-        this.props.filterCriteriaRoleChange(names, props);
+        const _names = Array.isArray(names) ? names : [names];
+        this.props.filterCriteriaRoleChange(_names, props);
     }
 
     render(){
@@ -192,8 +195,12 @@ class RoleList extends React.Component {
                     return(
                         <React.Fragment>
                             {role.status !== 1 ?<div className={`role-list__item role`}>
-                            <div className={`role__switcher`} onClick={()=>{this.handleChange('switch')}}>
-                                {role.status === 2 ? 'ON' : 'OFF'}
+                            <div className={`role__switcher`}>
+                                <Switch
+                                    onChange={()=>this.handleChange( [role.name],{[role.name]:{status: role.status === 2 ? 0 : 2}})}
+                                    checked={role.status === 2}
+                                    offColor={'#FF0000'}
+                                />
                             </div>
                             <div className={`role__main`}>
                                 <div className={`role__name`}>{role.name}</div>
@@ -203,19 +210,25 @@ class RoleList extends React.Component {
                                         onClick={()=>this.handleChange(
                                             [role.name],{[role.name]:{status:role.status, value: 1}}
                                         )}
-                                    ></div>
+                                    >
+                                        {role.value >= 1 ? <IoIosRadioButtonOn/> : <IoIosRadioButtonOff/>}
+                                    </div>
                                     <div
                                         className={`role__value-point ${role.value >= 2 ? 'role__value-point--active': ''}`}
                                         onClick={()=>this.handleChange(
                                             [role.name],{[role.name]:{status:role.status, value: 2}}
                                         )}
-                                    ></div>
+                                    >
+                                        {role.value >= 2 ? <IoIosRadioButtonOn/> : <IoIosRadioButtonOff/>}
+                                        </div>
                                     <div
                                         className={`role__value-point ${role.value >= 3 ? 'role__value-point--active': ''}`}
                                         onClick={()=>this.handleChange(
                                             [role.name],{[role.name]:{status:role.status, value: 3}}
                                         )}
-                                    ></div>
+                                    >
+                                        {role.value >= 3 ? <IoIosRadioButtonOn/> : <IoIosRadioButtonOff/>}
+                                    </div>
                                 </div>
                             </div>
                         </div> : null}
@@ -231,7 +244,8 @@ class ListSuggested extends React.Component {
 
     static defaultProps = {
         rootClass: 'xd-list',
-        suggestionSet: 'suggestionsRadiant'
+        suggestionSet: 'suggestionsRadiant',
+        criteriaList: {}
     };
 
     constructor(props) {
@@ -286,14 +300,20 @@ class ListSuggested extends React.Component {
             data: this.props.data,
             dataFromStorageIsReady: this.props.dataFromStorageIsReady,
             dataStatus: this.props.dataStatus,
-            filteredData: this.props.filteredData
+            filteredData: this.props.filteredData,
+            criteriaList: this.props.criteriaList
         };
         const newO = {
             data: nextProps.data,
             dataFromStorageIsReady: nextProps.dataFromStorageIsReady,
             dataStatus: nextProps.dataStatus,
-            filteredData: nextProps.filteredData
+            filteredData: nextProps.filteredData,
+            criteriaList: nextProps.criteriaList
         };
+
+        if(JSON.stringify(this.props.criteriaList) !== JSON.stringify(nextProps.criteriaList)){
+            this.props.filterData();
+        }
 
         if(JSON.stringify(this.props.selectValues) !== JSON.stringify(nextProps.selectValues)){
             this.props.filterCriteriaRole(nextProps.selectValues)
@@ -402,7 +422,8 @@ ListSuggested.propTypes = {
     handleChange: PropTypes.func,
     dataFromStorageIsReady: PropTypes.bool,
     dataStatus: PropTypes.number,
-    filteredData: PropTypes.object
+    filteredData: PropTypes.object,
+    criteriaList: PropTypes.object
 };
 
 const mapStateToProps = (state, props) => {

@@ -79,6 +79,7 @@ app.use(expressWinston.errorLogger({
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', 'http://10.101.11.62:4000');
     res.setHeader('Access-Control-Allow-Origin', 'http://192.168.0.105:4000');
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
 

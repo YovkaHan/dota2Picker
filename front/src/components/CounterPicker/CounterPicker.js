@@ -161,6 +161,7 @@ function makeHeroData(props) {
                 name: heroes[hero].name,
                 propertyName: heroes[hero].propertyName,
                 roles: heroes[hero].roles,
+                rolesIndex: heroes[hero].rolesIndex,
                 atk: heroes[hero].atk,
                 nem: {"Core": [], "Utility": [], "All": []},
                 selected: false
