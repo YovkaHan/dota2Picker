@@ -28,6 +28,7 @@ const app = require('express')();
 const url = require('url');
 const axios = require('axios');
 const http = require('http').Server(app);
+const cors = require('cors');
 const io = require('socket.io')(port);
 const winston = require('winston'); // for transports.Console
 const expressWinston = require('express-winston');
@@ -37,8 +38,7 @@ const router = express.Router();
 
 const heroesRoles = require('./db/heroesRoles');
 
-http.listen(port, addr);
-
+app.use(cors({credentials: true, origin: true}));
 app.use('/', express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -79,19 +79,22 @@ app.use(expressWinston.errorLogger({
 app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://10.101.11.62:4000');
-    res.setHeader('Access-Control-Allow-Origin', 'http://192.168.0.105:4000');
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
+    // res.setHeader('Access-Control-Allow-Origin', 'http://10.101.11.62:4000');
+    // res.setHeader('Access-Control-Allow-Origin', 'http://192.168.0.105:4000');
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    //
+    // // Request methods you wish to allow
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    // // Request headers you wish to allow
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    //
+    // // Set to true if you need the website to include cookies in the requests sent
+    // // to the API (e.g. in case you use sessions)
+    // res.setHeader('Access-Control-Allow-Credentials', true);
 
     // Pass to next layer of middleware
     next();
@@ -100,6 +103,8 @@ app.use(function (req, res, next) {
 app.get('/heroes/roles', (req, res) => {
     res.send(heroesRoles);
 });
+
+http.listen(port, addr);
 
 io.on('connection', (client) => {
 

@@ -175,27 +175,28 @@ class List extends React.Component {
         }
     }
 
-    shouldComponentUpdate(nextProps) {
-
-        const oldO = {
-            data: this.props.data,
-            name: this.props.name,
-            dataFromStorageIsReady: this.props.dataFromStorageIsReady,
-            filteredData: this.props.filteredData,
-            picks: this.props.picks,
-            bans: this.props.bans
-        };
-        const newO = {
-            data: nextProps.data,
-            name: nextProps.name,
-            dataFromStorageIsReady: nextProps.dataFromStorageIsReady,
-            filteredData: nextProps.filteredData,
-            picks: nextProps.picks,
-            bans: nextProps.bans
-        };
-
-        return !(JSON.stringify(oldO) === JSON.stringify(newO));
-    }
+    /**Избыточная проверка. Жрет много ресурсов*/
+    // shouldComponentUpdate(nextProps) {
+    //
+    //     const oldO = {
+    //         data: this.props.data,
+    //         name: this.props.name,
+    //         dataFromStorageIsReady: this.props.dataFromStorageIsReady,
+    //         filteredData: this.props.filteredData,
+    //         picks: this.props.picks,
+    //         bans: this.props.bans
+    //     };
+    //     const newO = {
+    //         data: nextProps.data,
+    //         name: nextProps.name,
+    //         dataFromStorageIsReady: nextProps.dataFromStorageIsReady,
+    //         filteredData: nextProps.filteredData,
+    //         picks: nextProps.picks,
+    //         bans: nextProps.bans
+    //     };
+    //
+    //     return !(JSON.stringify(oldO) === JSON.stringify(newO));
+    // }
 
     inputHandle = (e) => {
         this.props.handleChange(e);

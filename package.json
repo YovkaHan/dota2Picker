@@ -47,6 +47,7 @@
     "webpack-md5-hash": "^0.0.6"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.3",
     "history": "^4.7.2",
     "immer": "^1.8.2",
