@@ -282,7 +282,7 @@ export default class App extends React.Component {
 
         this.state = {};
         this.pcb = pcbGenerate(pcbTemplate);
-    }
+    };
 
     componentDidMount() {
     }

@@ -358,7 +358,7 @@ class ListSuggested extends React.Component {
                 <div className={`${rootClass}__body`}>
                     <div className={`${rootClass}__item`}>
                         <div className={`${rootClass}__title`}>Carries</div>
-                        <div className={`heroes`}>
+                        <div className={`${rootClass}__list heroes`}>
                             <div className={`${rootClass}__main list`}>
                                 {
                                     dataIsReady ? _herosGet.carries.map((hero) => {
@@ -383,7 +383,7 @@ class ListSuggested extends React.Component {
                     </div>
                     <div className={`${rootClass}__item`}>
                         <div className={`${rootClass}__title`}>Supports</div>
-                        <div className={`heroes`}>
+                        <div className={`${rootClass}__list heroes`}>
                             <div className={`${rootClass}__main list`}>
                                 {
                                     dataIsReady ? _herosGet.supports.map((hero) => {

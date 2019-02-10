@@ -42,17 +42,37 @@ class ItemHover extends React.Component {
         direBan: ()=>{}
     };
 
+    /**Задержка что бы не забанить и не пикнуть сразу*/
+    timer = {
+      isGoing: false,
+        count: 1500,
+      go: function () {
+          this.isGoing = true;
+          setTimeout(()=>{
+              this.isGoing = false;
+          },this.count)
+      }
+    };
+
+    clickHandle = (foo, e) => {
+        if(!this.timer.isGoing){
+            foo(e);
+            this.timer.go();
+        }
+    };
+
     render(){
+        const {clickHandle} = this;
         const {visible, radiantPick, radiantBan, direPick, direBan} = this.props;
         return(
             <div className={`item-hover ${visible ? 'item-hover--visible' : ''}`}>
                 <div className={`item-hover__item item-hover__item--radiant`}>
-                    <span className={`inner`} onClick={radiantPick}><span className={`team-name`}>Radiant</span> pick</span>
-                    <span className={`inner`} onClick={radiantBan}><span className={`team-name`}>Radiant</span> ban</span>
+                    <span className={`inner`} onClick={(e)=>clickHandle(radiantPick, e)}><span className={`team-name`}>Radiant</span> pick</span>
+                    <span className={`inner`} onClick={(e)=>clickHandle(radiantBan, e)}><span className={`team-name`}>Radiant</span> ban</span>
                 </div>
                 <div className={`item-hover__item item-hover__item--dire`}>
-                    <span className={`inner`} onClick={direPick}><span className={`team-name`}>Dire</span> pick</span>
-                    <span className={`inner`} onClick={direBan}><span className={`team-name`}>Dire</span> ban</span>
+                    <span className={`inner`} onClick={(e)=>clickHandle(direPick, e)}><span className={`team-name`}>Dire</span> pick</span>
+                    <span className={`inner`} onClick={(e)=>clickHandle(direBan, e)}><span className={`team-name`}>Dire</span> ban</span>
                 </div>
             </div>
         )
@@ -178,8 +198,8 @@ class List extends React.Component {
     }
 
     inputHandle = (e) => {
-        this.props.handleChange(e)
-            .then(() => this.props.filterData())
+        this.props.handleChange(e);
+        this.props.filterData();
     };
 
     render() {

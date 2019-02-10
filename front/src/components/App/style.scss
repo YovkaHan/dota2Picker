@@ -318,6 +318,10 @@ $border-color: #9799a96b;
       }
     }
 
+    &__list {
+      height: calc(50vh);
+    }
+
     &__title {
       flex-shrink: 0;
       font-size: 18px;
