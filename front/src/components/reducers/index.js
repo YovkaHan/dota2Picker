@@ -43,7 +43,7 @@ export default {
             list0: List('list0'), /** Heroes-List **/
             list1: PickList('list1'), /** Radiant Picks/Bans **/
             list2: PickList('list2'), /** Dire Picks/Bans **/
-            list3: ListSuggested('list3'), /** Radiant Picks Suggestions **/
+            list3: ListSuggested('list3'), /** Radiant Picks S  uggestions **/
             list4: ListSuggested('list4')  /** Dire Picks Suggestions **/
         }),
         Tabs: combineReducers(({

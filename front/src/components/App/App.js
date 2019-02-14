@@ -315,3 +315,38 @@ export default class App extends React.Component {
         )
     }
 }
+
+/**
+ *
+ * Создание удобюного дерева
+ * App{
+ *  Data: {
+ *       Storage : {},
+ *       StorageAdvStat: {},
+ *       StorageWinStat: {},
+ *       StorageCounterPickerDefault: {}
+ *  }
+ *
+ *  View: {
+ *      List: {},
+ *      Picks: {
+ *           PickList: {},
+ *           PickList: {}
+ *      }
+ *      Main(CounterPicker): {
+ *          Tabs:{
+ *              PossiblePicks(Tabs): {
+ *                  RadiantList: {
+ *
+ *                  },
+ *                  DireList: {
+ *
+ *                  }
+ *              },
+ *              Stats: {},
+ *              Random: {}
+ *          }
+ *      }
+ *  }
+ * }
+ * */
